@@ -286,3 +286,96 @@ footer nav ul {
   background-color: #1d6154;
   color: white;
 }
+
+/* code lié à la modal utilisé dans le javascript*/
+.trash {
+  background-color: black;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 5px;
+  margin-top: 5px;
+  width: 25%;
+  height: 18%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-button-class {
+  color: red;
+  background-color: transparent;
+  border: none;
+  font-family: syne;
+}
+
+.add-photo-class {
+  margin-bottom: 20px;
+  background-color: #1d6154;
+  color: white;
+  font-family: syne;
+  border: 2px solid #1d6154;
+  border-radius: 30px;
+  padding: 5px;
+  width: 50%;
+}
+.btn_under-modal-class {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-top: solid #b3b3b3;
+  width: 80%;
+  margin: auto;
+  padding-top: 40px;
+}
+.gallery-image-class {
+  margin: 40px;
+  padding-left: 30px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.close-span-class {
+  color: #aaa;
+  font-size: 28px;
+  float: right;
+  font-weight: bold;
+}
+.close-span-class:hover {
+  color: black;
+  cursor: pointer;
+}
+.modal-content-class {
+  background-color: #fefefe;
+  margin: 3% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 40%;
+  height: 75%;
+  border-radius: 10px;
+}
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.bandeau-noir-class {
+  background-color: black;
+  width: 100vw;
+  margin-left: -150px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.title-galerie-photo {
+  text-align: center;
+  margin: 20px;
+}

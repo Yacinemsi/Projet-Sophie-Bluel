@@ -99,8 +99,10 @@ window.addEventListener("load", function () {
     // L'utilisateur est connecté, mise à jour de la page en conséquence
     document.getElementById("login").style.display = "none";
     document.getElementById("logout").style.display = "block";
+    // modifier la bandeau noir en en-tête
     const bandeauNoir = document.createElement("div");
     bandeauNoir.id = "bandeau-noir";
+    bandeauNoir.classList.add("bandeau-noir-class");
 
     // On ajoute le bandeau noir dans le header mais en première position
     const header = document.querySelector("header");
@@ -108,11 +110,6 @@ window.addEventListener("load", function () {
 
     // mettre en display none la section des filtres
     filtre.style.display = "none";
-    // modifier la bandeau noir en en-tête
-    bandeauNoir.style.backgroundColor = "black";
-    bandeauNoir.style.width = "100vw";
-    bandeauNoir.style.marginLeft = "-150px";
-    bandeauNoir.style.height = "60px";
 
     // création des icones à mettre dans le bandeau noir
     const divSVG = document.createElement("div");
@@ -121,9 +118,6 @@ window.addEventListener("load", function () {
     <path d="M1.50733 4.22446H8.27287C8.53637 4.22446 8.74949 4.01134 8.74949 3.74785C8.74949 3.48436 8.53637 3.27124 8.27287 3.27124H1.50733C0.67423 3.27124 0 3.94934 0 4.77857V17.4649C0 18.298 0.678105 18.9723 1.50733 18.9723H14.1898C15.0229 18.9723 15.6972 18.2942 15.6972 17.4649V10.9745C15.6972 10.711 15.484 10.4979 15.2205 10.4979C14.957 10.4979 14.7439 10.711 14.7439 10.9745V17.4649C14.7439 17.7711 14.4921 18.0229 14.1859 18.0229H1.50733C1.20121 18.0229 0.949346 17.7711 0.949346 17.4649V4.78244C0.949346 4.47633 1.20121 4.22446 1.50733 4.22446Z" fill="white"/>
     </svg>`;
     bandeauNoir.appendChild(divSVG);
-    bandeauNoir.style.display = "flex";
-    bandeauNoir.style.justifyContent = "center";
-    bandeauNoir.style.alignItems = "center";
 
     // Cloner le svg pour le mettre à côté du titre "Mes projets"
     const divSVG2 = document.createElement("div");
@@ -169,71 +163,45 @@ window.addEventListener("load", function () {
 
     // Créer l'élément de div pour la modale
     const modalDiv = document.createElement("div");
-    modalDiv.class = "modal";
-    modalDiv.style.display = "none";
-    modalDiv.style.position = "fixed";
-    modalDiv.style.zIndex = "1";
-    modalDiv.style.left = "0";
-    modalDiv.style.top = "0";
-    modalDiv.style.width = "100%";
-    modalDiv.style.height = "100%";
-    modalDiv.style.overflow = "auto";
-    modalDiv.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
+    modalDiv.setAttribute("class", "modal");
 
     // Créer l'élément div pour le contenu de la modale
     const modalContentDiv = document.createElement("div");
     modalContentDiv.id = "modal-content";
-    modalContentDiv.style.backgroundColor = "#fefefe";
-    modalContentDiv.style.margin = "3% auto";
-    modalContentDiv.style.padding = "20px";
-    modalContentDiv.style.border = "1px solid #888";
-    modalContentDiv.style.width = "30%";
-    modalContentDiv.style.height = "70%";
+    modalContentDiv.classList.add("modal-content-class");
 
     // Créer l'élément span pour fermer la modale
     const closeSpan = document.createElement("span");
     closeSpan.id = "close";
+    closeSpan.classList.add("close-span-class");
     closeSpan.innerHTML = "&times;";
-    closeSpan.style.color = "#aaa";
-    closeSpan.style.float = "right";
-    closeSpan.style.fontSize = "28px";
-    closeSpan.style.fontWeight = "bold";
-    closeSpan.addEventListener("mouseover", () => {
-      closeSpan.style.cursor = "pointer";
-      closeSpan.style.color = "black";
-    });
-    closeSpan.addEventListener("mouseout", () => {
-      closeSpan.style.color = "#aaa";
-    });
 
     // Créer l'élément p pour le titre de la modale
     const titleP = document.createElement("p");
     titleP.innerHTML = "Galerie photos";
-    titleP.style.textAlign = "center";
-    titleP.style.margin = "20px";
+    titleP.classList.add("title-galerie-photo");
 
     // Créer l'élément div pour les images de la galerie
     const galleryDiv = document.createElement("div");
     galleryDiv.id = "gallery-image";
-    galleryDiv.style.margin = "auto";
+    galleryDiv.classList.add("gallery-image-class");
 
     // Créer l'élément div pour les boutons sous la modale
     const btnUnderModalDiv = document.createElement("div");
     btnUnderModalDiv.id = "btn_under-modal";
-    btnUnderModalDiv.style.display = "flex";
-    btnUnderModalDiv.style.flexDirection = "column";
-    btnUnderModalDiv.style.alignItems = "center";
+    btnUnderModalDiv.classList.add("btn_under-modal-class");
 
     // Créer le bouton "Ajouter une photo"
     const addPhotoButton = document.createElement("button");
     addPhotoButton.id = "ajt_photo";
     addPhotoButton.innerHTML = "Ajouter une photo";
-    addPhotoButton.style.marginBottom = "20px";
+    addPhotoButton.classList.add("add-photo-class");
 
     // Créer le bouton "Supprimer la galerie"
     const deleteButton = document.createElement("button");
     deleteButton.id = "delete_button";
     deleteButton.innerHTML = "Supprimer la galerie";
+    deleteButton.classList.add("delete-button-class");
 
     // Ajouter les éléments au DOM
     btnUnderModalDiv.appendChild(addPhotoButton);
@@ -258,15 +226,102 @@ window.addEventListener("load", function () {
       });
     }
 
+    // Fermeture de la modal en cliquant en dehors de la modal
     window.addEventListener("click", function (event) {
       if (event.target == modalDiv) {
         modalDiv.style.display = "none";
       }
     });
 
-    /*close.addEventListener("click", function () {
-      modal.style.display = "none";
-    });*/
+    //Fermeture de la modal en cliquant sur la croix
+    closeSpan.addEventListener("click", () => {
+      modalDiv.style.display = "none";
+    });
+
+    // Insertion des images dans la modal via fetch
+    fetch("http://localhost:5678/api/works")
+      .then((response) => response.json())
+      .then((data) => {
+        data.forEach((image) => {
+          const divImage = document.createElement("div");
+          divImage.setAttribute("class", "div-image");
+          divImage.style.marginBottom = "20px";
+          divImage.style.position = "relative";
+          const img = document.createElement("img");
+          img.src = image.imageUrl;
+          img.crossOrigin = "anonymous";
+          img.style.maxWidth = "100px";
+          img.style.maxHeight = "100px";
+          img.style.marginLeft = "10px";
+
+          // stocke l'identifiant unique de l'image
+          img.setAttribute("data-imageId", image.id);
+
+          // ajoute les images à la modal
+          divImage.appendChild(img);
+          galleryDiv.appendChild(divImage);
+
+          // ajouter "editer" en dessous des images
+          const editerUnderImage = document.createElement("p");
+          editerUnderImage.innerText = "éditer";
+          editerUnderImage.style.marginLeft = "10px";
+          divImage.appendChild(editerUnderImage);
+
+          // ajout des icon trash sur les images et supprimer l'image quand l'icon est cliqué
+          const divTrash = document.createElement("div");
+
+          divTrash.setAttribute("class", "trash");
+          divTrash.innerHTML = `<svg
+              width="13"
+              height="13"
+              viewBox="0 0 9 9"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M6.6 1.8V0.9C6.6 0.402944 6.19704 0 5.7 0H3.3C2.80294 0 2.4 0.402944 2.4 0.9V1.8H0V2.4H0.6V8.1C0.6 8.59704 1.00294 9 1.5 9H7.5C7.99704 9 8.4 8.59704 8.4 8.1V2.4H9V1.8H6.6ZM3 0.9C3 0.734316 3.13432 0.6 3.3 0.6H5.7C5.86568 0.6 6 0.734316 6 0.9V1.8H3V0.9ZM4.2 4.2V7.2H4.8V4.2H4.2ZM2.4 7.2V5.4H3V7.2H2.4ZM6 5.4V7.2H6.6V5.4H6Z"
+                fill="white"
+              />
+            </svg>`;
+
+          // Ajout des style pour trash via la feuille css
+          divTrash.classList.add("trash");
+          // suppression des images au click des poubelles
+          divTrash.addEventListener("click", () => {
+            const confirmDelete = window.confirm(
+              "Êtes-vous sûr de vouloir supprimer cette image ?"
+            );
+
+            if (confirmDelete) {
+              // Envoyer une requête DELETE à l'API pour supprimer l'image correspondante
+              const imageId = image.id;
+              console.log("imageId : " + imageId);
+              fetch(`http://localhost:5678/api/works/${imageId}`, {
+                method: "DELETE",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + localStorage.getItem("token"),
+                },
+              })
+                .then((response) => {
+                  console.log(response.status);
+                  if (response.status === 204) {
+                    // Supprimer la div parente de l'image
+                    divTrash.parentNode.remove();
+                    console.log(
+                      `L'image avec l'ID ${imageId} a été supprimée avec succès.`
+                    );
+                  }
+                })
+                .catch((error) => console.error(error));
+            }
+          });
+          divImage.appendChild(divTrash);
+        });
+      })
+      .catch((error) => console.error(error));
   } else {
     // L'utilisateur n'est pas connecté, mise à jour de la page en conséquence
     document.getElementById("login").style.display = "block";
