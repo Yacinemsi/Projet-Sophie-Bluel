@@ -12,6 +12,7 @@ fetch("http://localhost:5678/api/works")
       <img crossorigin="anonymous" src="${work.imageUrl}" alt="${work.title}" />
       <figcaption>${work.title}</figcaption>
     </figure>`;
+      element.setAttribute("data-imageId", work.id);
 
       return element;
     });
@@ -289,6 +290,7 @@ window.addEventListener("load", function () {
           // Ajout des style pour trash via la feuille css
           divTrash.classList.add("trash");
           // suppression des images au click des poubelles
+
           divTrash.addEventListener("click", () => {
             const confirmDelete = window.confirm(
               "Êtes-vous sûr de vouloir supprimer cette image ?"
@@ -297,7 +299,7 @@ window.addEventListener("load", function () {
             if (confirmDelete) {
               // Envoyer une requête DELETE à l'API pour supprimer l'image correspondante
               const imageId = image.id;
-              console.log("imageId : " + imageId);
+
               fetch(`http://localhost:5678/api/works/${imageId}`, {
                 method: "DELETE",
                 headers: {
@@ -306,10 +308,15 @@ window.addEventListener("load", function () {
                 },
               })
                 .then((response) => {
-                  console.log(response.status);
                   if (response.status === 204) {
                     // Supprimer la div parente de l'image
                     divTrash.parentNode.remove();
+                    const element = document.querySelector(
+                      `[data-imageId="${image.id}"]`
+                    );
+                    console.log(element);
+                    element.remove();
+
                     console.log(
                       `L'image avec l'ID ${imageId} a été supprimée avec succès.`
                     );
