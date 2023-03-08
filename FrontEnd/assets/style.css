@@ -303,25 +303,14 @@ footer nav ul {
   border-radius: 5px;
   cursor: pointer;
 }
-
-.delete-button-class {
+#delete_button {
   color: red;
   background-color: transparent;
   border: none;
   font-family: syne;
 }
 
-.add-photo-class {
-  margin-bottom: 20px;
-  background-color: #1d6154;
-  color: white;
-  font-family: syne;
-  border: 2px solid #1d6154;
-  border-radius: 30px;
-  padding: 5px;
-  width: 50%;
-}
-.btn_under-modal-class {
+#btn_under-modal {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -330,12 +319,13 @@ footer nav ul {
   margin: auto;
   padding-top: 40px;
 }
-.gallery-image-class {
+#gallery-image {
   margin: 40px;
   padding-left: 30px;
   display: flex;
   flex-wrap: wrap;
 }
+
 .close-span-class {
   color: #aaa;
   font-size: 28px;
@@ -346,14 +336,18 @@ footer nav ul {
   color: black;
   cursor: pointer;
 }
-.modal-content-class {
+#modal-content,
+#modal-add-image {
   background-color: #fefefe;
   margin: 3% auto;
   padding: 20px;
   border: 1px solid #888;
   width: 40%;
-  height: 85%;
+  height: 80%;
   border-radius: 10px;
+}
+#modal-add-image {
+  display: none;
 }
 .modal {
   display: none;
@@ -366,6 +360,7 @@ footer nav ul {
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.4);
 }
+
 .bandeau-noir-class {
   background-color: black;
   width: 100vw;
@@ -378,4 +373,105 @@ footer nav ul {
 .title-galerie-photo {
   text-align: center;
   margin: 20px;
+}
+#ajt_photo {
+  cursor: pointer;
+  margin-bottom: 20px;
+  background-color: #1d6154;
+  color: white;
+  font-family: syne;
+  border: 2px solid #1d6154;
+  border-radius: 30px;
+  padding: 5px;
+  width: 50%;
+}
+/* Modification du style de la modal d'ajout de photo*/
+.div-arrow-close {
+  display: flex;
+  justify-content: space-between;
+}
+.modal-image-title {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: black;
+  text-align: center;
+}
+.close-span-image {
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.close-span-image:hover {
+  color: black;
+}
+.arrow {
+  cursor: pointer;
+}
+#div-under-title {
+  width: 80%;
+  margin: auto;
+  border-bottom: 1px solid #b3b3b3;
+  padding-bottom: 60px;
+}
+#rectangle-add-image {
+  width: 100%;
+  height: 50%;
+  background-color: #e8f1f6;
+  margin-top: 40px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#svg-add-image {
+  padding-top: 20px;
+}
+#button-add-image {
+  background-color: #cbd6dc;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 30px;
+  color: #306685;
+  font-family: "work sans";
+  margin-top: 20px;
+  cursor: pointer;
+}
+#text-add-image {
+  font-family: "work sans";
+  color: #444444;
+  font-size: 10px;
+  margin-top: 20px;
+  padding-bottom: 20px;
+}
+#title-input {
+  width: 98%;
+  height: 35px;
+  border-radius: 0px;
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+#category-select {
+  width: 99%;
+  height: 35px;
+  border-radius: 0px;
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+#button-validate {
+  background-color: #1d6154;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 30px;
+  color: white;
+  font-family: "Syne";
+  margin-top: 20px;
+  cursor: pointer;
+}
+#div-button-validate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
 }

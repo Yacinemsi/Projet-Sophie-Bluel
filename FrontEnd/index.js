@@ -47,6 +47,7 @@ function toggleCategory(categoryId) {
 fetch("http://localhost:5678/api/categories")
   .then((response) => response.json())
   .then((data) => {
+    let categories = data;
     data.forEach((item) => {
       let div = document.createElement("div");
       div.id = item.name;
@@ -54,6 +55,7 @@ fetch("http://localhost:5678/api/categories")
       div.setAttribute("class", "all-ctg");
       filtre.appendChild(div);
     });
+    localStorage.setItem("categories", JSON.stringify(categories));
 
     // Au clique du filtre Objets, j'affiche tout les éléments de la catégorie Objets
     const ctgObjets = document.getElementById("Objets");
@@ -169,7 +171,6 @@ window.addEventListener("load", function () {
     // Créer l'élément div pour le contenu de la modale
     const modalContentDiv = document.createElement("div");
     modalContentDiv.id = "modal-content";
-    modalContentDiv.classList.add("modal-content-class");
 
     // Créer l'élément span pour fermer la modale
     const closeSpan = document.createElement("span");
@@ -185,24 +186,26 @@ window.addEventListener("load", function () {
     // Créer l'élément div pour les images de la galerie
     const galleryDiv = document.createElement("div");
     galleryDiv.id = "gallery-image";
-    galleryDiv.classList.add("gallery-image-class");
 
     // Créer l'élément div pour les boutons sous la modale
     const btnUnderModalDiv = document.createElement("div");
     btnUnderModalDiv.id = "btn_under-modal";
-    btnUnderModalDiv.classList.add("btn_under-modal-class");
 
     // Créer le bouton "Ajouter une photo"
     const addPhotoButton = document.createElement("button");
     addPhotoButton.id = "ajt_photo";
     addPhotoButton.innerHTML = "Ajouter une photo";
-    addPhotoButton.classList.add("add-photo-class");
+
+    // Au click sur le bouton "Ajouter une photo", on cache la modale et on fait apparaitre la modal pour ajouter une photo
+    addPhotoButton.addEventListener("click", () => {
+      modalContentDiv.style.display = "none";
+      modalAddImage.style.display = "block";
+    });
 
     // Créer le bouton "Supprimer la galerie"
     const deleteButton = document.createElement("button");
     deleteButton.id = "delete_button";
     deleteButton.innerHTML = "Supprimer la galerie";
-    deleteButton.classList.add("delete-button-class");
 
     // Ajouter les éléments au DOM
     btnUnderModalDiv.appendChild(addPhotoButton);
@@ -329,6 +332,243 @@ window.addEventListener("load", function () {
         });
       })
       .catch((error) => console.error(error));
+
+    // Ajout de la modal pour ajouter une image
+    const modalAddImage = document.createElement("div");
+    modalAddImage.id = "modal-add-image";
+    modalDiv.appendChild(modalAddImage);
+
+    // Ajout des éléments de la modal pour ajouter une image
+    const divArrowClose = document.createElement("div");
+    divArrowClose.classList.add("div-arrow-close");
+    modalAddImage.appendChild(divArrowClose);
+    // Ajout de la flèche et de la croix pour fermer la modal
+    const arrow = document.createElement("div");
+    arrow.classList.add("arrow");
+    arrow.innerHTML = `<svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20.3459 6.91164H2.14392L7.58919 1.48731C7.84495 1.23155 7.84495 0.817527 7.58919 0.562423C7.33343 0.306666 6.91941 0.306666 6.6643 0.562423L0.188882 7.03724C-0.0629605 7.28908 -0.0629605 7.71028 0.188882 7.96213L6.66436 14.4376C6.92011 14.6934 7.33414 14.6934 7.58924 14.4376C7.845 14.1818 7.845 13.7678 7.58924 13.5127L2.14392 8.21979H20.3459C20.7069 8.21979 20.9999 7.92673 20.9999 7.56571C20.9999 7.2047 20.7069 6.91164 20.3459 6.91164Z" fill="black"/>
+    </svg>
+    `;
+    // Effet de retour sur la modal précedente au clique de la flèche
+    arrow.addEventListener("click", () => {
+      modalAddImage.style.display = "none";
+      modalContentDiv.style.display = "block";
+    });
+    divArrowClose.appendChild(arrow);
+
+    // Ajout de la croix pour fermer la modal image
+    const closeSpanImage = document.createElement("div");
+    closeSpanImage.classList.add("close-span-image");
+    closeSpanImage.innerHTML = "&times;";
+    divArrowClose.appendChild(closeSpanImage);
+    closeSpanImage.addEventListener("click", () => {
+      modalDiv.style.display = "none";
+    });
+
+    // Ajout du titre de la modal
+    const modalImageTitle = document.createElement("p");
+    modalImageTitle.innerText = "Ajout photo";
+    modalImageTitle.classList.add("modal-image-title");
+    modalAddImage.appendChild(modalImageTitle);
+
+    // Ajout du formulaire pour ajouter une image
+    const divUnderTitle = document.createElement("div");
+    divUnderTitle.id = "div-under-title";
+    modalAddImage.appendChild(divUnderTitle);
+    const rectangleAddImage = document.createElement("div");
+    rectangleAddImage.id = "rectangle-add-image";
+    divUnderTitle.appendChild(rectangleAddImage);
+
+    const svgAddImage = document.createElement("div");
+    svgAddImage.id = "svg-add-image";
+    svgAddImage.innerHTML = `<svg width="58" height="46" viewBox="0 0 58 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M57 0H1C0.448 0 0 0.447 0 1V45C0 45.553 0.448 46 1 46H57C57.552 46 58 45.553 58 45V1C58 0.447 57.552 0 57 0ZM56 44H2V2H56V44Z" fill="#B9C5CC"/>
+    <path d="M16 22.138C19.071 22.138 21.569 19.64 21.569 16.57C21.569 13.498 19.071 11 16 11C12.929 11 10.431 13.498 10.431 16.569C10.431 19.64 12.929 22.138 16 22.138ZM16 13C17.968 13 19.569 14.602 19.569 16.569C19.569 18.536 17.968 20.138 16 20.138C14.032 20.138 12.431 18.537 12.431 16.57C12.431 14.603 14.032 13 16 13Z" fill="#B9C5CC"/>
+    <path d="M7.00004 40C7.23404 40 7.47004 39.918 7.66004 39.751L23.973 25.389L34.275 35.69C34.666 36.081 35.298 36.081 35.689 35.69C36.08 35.299 36.08 34.667 35.689 34.276L30.882 29.469L40.063 19.415L51.324 29.738C51.731 30.111 52.364 30.083 52.737 29.676C53.11 29.269 53.083 28.636 52.675 28.263L40.675 17.263C40.479 17.084 40.218 16.995 39.955 17.001C39.69 17.013 39.44 17.13 39.261 17.326L29.467 28.053L24.724 23.31C24.35 22.937 23.752 22.918 23.356 23.266L6.33904 38.249C5.92404 38.614 5.88404 39.246 6.24904 39.661C6.44704 39.886 6.72304 40 7.00004 40Z" fill="#B9C5CC"/>
+    </svg>
+    `;
+    rectangleAddImage.appendChild(svgAddImage);
+
+    // Ajout du bouton pour ajouter une image
+    const buttonAddImage = document.createElement("button");
+    buttonAddImage.id = "button-add-image";
+    buttonAddImage.innerText = "+ Ajouter photo";
+    rectangleAddImage.appendChild(buttonAddImage);
+
+    // Création de l'input file
+    const inputAddImage = document.createElement("input");
+    inputAddImage.id = "input-add-image";
+    inputAddImage.type = "file";
+    inputAddImage.accept = "image/png, image/jpeg";
+    inputAddImage.style.display = "none";
+    rectangleAddImage.appendChild(inputAddImage);
+
+    // Ecouteur d'événement pour l'ajout d'une image
+    buttonAddImage.addEventListener("click", () => {
+      inputAddImage.click();
+    });
+
+    // Ecouteur d'événement pour la sélection d'un fichier
+    inputAddImage.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      const fileSize = file.size / 1024 / 1024; // Convertir en Mo
+
+      // Vérification de la taille et du type de l'image
+      if (
+        fileSize <= 4 &&
+        (file.type === "image/png" || file.type === "image/jpeg")
+      ) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onload = () => {
+          // Création de l'élément img
+          const img = document.createElement("img");
+          img.src = reader.result;
+          img.id = "img-added";
+          img.style.width = "30%";
+          img.style.height = "100%";
+
+          // Suppression de l'élément svg
+          svgAddImage.remove();
+          textAddImage.remove();
+          buttonAddImage.remove();
+          // Ajout de l'image
+          rectangleAddImage.appendChild(img);
+        };
+      } else {
+        alert(
+          "Le fichier doit être au format .png ou .jpeg et faire au maximum 4Mo."
+        );
+      }
+    });
+
+    // Ajout du texte de la condition pour ajouter une image
+    const textAddImage = document.createElement("p");
+    textAddImage.id = "text-add-image";
+    textAddImage.innerText = "jpg, png : 4mo max";
+    rectangleAddImage.appendChild(textAddImage);
+
+    // Ajout des composant sous le rectangle bleu
+
+    // Ajout de "titre" au dessus du champs de saisi de titre
+    const addTitle = document.createElement("p");
+    addTitle.style.marginTop = "40px";
+    addTitle.style.marginBottom = "10px";
+    addTitle.innerText = "Titre";
+    divUnderTitle.appendChild(addTitle);
+
+    // Ajout du champ de saisie du Titre
+    const titleForm = document.createElement("form");
+    divUnderTitle.appendChild(titleForm);
+    const titleInput = document.createElement("input");
+    titleInput.id = "title-input";
+    titleInput.type = "text";
+    titleInput.placeholder = "";
+    titleInput.name = "title";
+    titleForm.appendChild(titleInput);
+
+    // Ajout de "catégorie" au dessus du champ de selection de catégorie
+    const addCategory = document.createElement("p");
+    addCategory.style.marginTop = "40px";
+    addCategory.style.marginBottom = "10px";
+    addCategory.innerText = "Catégorie";
+    divUnderTitle.appendChild(addCategory);
+
+    // Ajout du formulaire de sélection de catégorie
+    const categoryForm = document.createElement("form");
+    categoryForm.id = "category-form";
+    divUnderTitle.appendChild(categoryForm);
+
+    const categorySelect = document.createElement("select");
+    categorySelect.id = "category-select";
+    categorySelect.name = "category";
+    categoryForm.appendChild(categorySelect);
+
+    let categories = JSON.parse(localStorage.getItem("categories"));
+    categories.forEach((category) => {
+      const option = document.createElement("option");
+      option.value = category.id;
+      option.text = category.name;
+      categorySelect.appendChild(option);
+    });
+
+    // Ajout du boutton validé pour envoyer la photo à l'API
+    const divButtonValidate = document.createElement("div");
+    divButtonValidate.id = "div-button-validate";
+    modalAddImage.appendChild(divButtonValidate);
+    const buttonValidate = document.createElement("button");
+    buttonValidate.id = "button-validate";
+    buttonValidate.innerText = "Valider";
+    divButtonValidate.appendChild(buttonValidate);
+
+    // Ecouteur d'événement pour la validation de l'ajout d'une image
+    buttonValidate.addEventListener("click", () => {
+      // Récupération du titre, de la catégorie et de l'image
+      const title = document.getElementById("title-input").value;
+      const category = document.getElementById("category-select").value;
+      const image = document.getElementById("input-add-image");
+
+      // Vérification de la présence d'une image et d'un titre
+      if (image && title) {
+        // Récupération du token
+        const token = localStorage.getItem("token");
+
+        // Création du formData
+        const formData = new FormData();
+        formData.append("title", title);
+        //const blob = new Blob([image.files[0]], { type: "text/xml" });
+        formData.append("image", image.files[0], image.files[0].name);
+        formData.append("category", category);
+
+        console.log(formData.get("title"));
+        console.log(formData.get("category"));
+        console.log(formData.get("image"));
+        // Envoi de la requête
+        fetch("http://localhost:5678/api/works", {
+          method: "POST",
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer + ${token}`,
+            // "Content-type": "multipart/form-data",
+          },
+          body: formData,
+        })
+          .then((response) => {
+            console.log(response);
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error("Erreur lors de l'envoi de la photo");
+            }
+          })
+          .then((data) => {
+            console.log(data);
+            // Fermeture de la modale
+            modalAddImage.style.display = "none";
+            // Suppression des éléments de la modale
+            rectangleAddImage.remove();
+            divUnderTitle.remove();
+            divButtonValidate.remove();
+            // Suppression de l'image
+            image.remove();
+            // Ajout de l'élément svg
+            rectangleAddImage.appendChild(svgAddImage);
+            rectangleAddImage.appendChild(textAddImage);
+            rectangleAddImage.appendChild(buttonAddImage);
+            // Suppression du titre et de la catégorie
+            titleInput.value = "";
+            categorySelect.value = "";
+            // Affichage de la photo
+            displayImage(data.data.link);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        alert("Veuillez ajouter une image et un titre.");
+      }
+    });
   } else {
     // L'utilisateur n'est pas connecté, mise à jour de la page en conséquence
     document.getElementById("login").style.display = "block";
