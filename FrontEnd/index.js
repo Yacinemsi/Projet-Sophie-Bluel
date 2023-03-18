@@ -329,6 +329,43 @@ window.addEventListener("load", function () {
             }
           });
           divImage.appendChild(divTrash);
+
+          // Suppression de toutes les images au click du bouton supprimer la galerie
+          deleteButton.addEventListener("click", () => {
+            const imageId = image.id;
+            const token = localStorage.getItem("token");
+            fetch(`http://localhost:5678/api/works/${imageId}`, {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            })
+              .then((response) => {
+                console.log(response);
+                if (response.status === 204) {
+                  response;
+                  const element = document.querySelector(
+                    `[data-imageId="${image.id}"]`
+                  );
+                  let i = 0;
+                  while (i < element.length) {
+                    element[i].remove();
+                    i++;
+                  }
+                }
+              })
+              .then((data) => {
+                // Fermeture de la modale
+                modalContentDiv.style.display = "none";
+                modalDiv.style.display = "none";
+                //code pour rafraichir la page après suppression de la galerie
+                window.location.reload();
+                console.log("La galerie a été supprimée avec succès.");
+              })
+
+              .catch((error) => console.error(error));
+          });
         });
       })
       .catch((error) => console.error(error));
@@ -503,7 +540,7 @@ window.addEventListener("load", function () {
     divButtonValidate.appendChild(buttonValidate);
 
     // Ecouteur d'événement pour la validation de l'ajout d'une image
-    buttonValidate.addEventListener("click", () => {
+    buttonValidate.addEventListener("click", async () => {
       // Récupération du titre, de la catégorie et de l'image
       const title = document.getElementById("title-input").value;
       const category = document.getElementById("category-select").value;
@@ -513,24 +550,22 @@ window.addEventListener("load", function () {
       if (image && title) {
         // Récupération du token
         const token = localStorage.getItem("token");
+        console.log(token);
 
         // Création du formData
         const formData = new FormData();
         formData.append("title", title);
         //const blob = new Blob([image.files[0]], { type: "text/xml" });
-        formData.append("image", image.files[0], image.files[0].name);
+        formData.append("image", image.files[0]);
         formData.append("category", category);
 
-        console.log(formData.get("title"));
-        console.log(formData.get("category"));
-        console.log(formData.get("image"));
         // Envoi de la requête
         fetch("http://localhost:5678/api/works", {
           method: "POST",
           headers: {
             accept: "application/json",
-            Authorization: `Bearer + ${token}`,
-            // "Content-type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+            //"Content-type": "multipart/form-data",
           },
           body: formData,
         })
