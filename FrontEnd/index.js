@@ -528,7 +528,6 @@ window.addEventListener("load", function () {
           headers: {
             accept: "application/json",
             Authorization: `Bearer ${token}`,
-            //"Content-type": "multipart/form-data",
           },
           body: formData,
         })
@@ -574,7 +573,7 @@ window.addEventListener("load", function () {
   }
 });
 function logout() {
-  localStorage.removeItem("token");
+  localStorage.clear();
   window.location.href = "./index.html";
 }
 
