@@ -329,43 +329,6 @@ window.addEventListener("load", function () {
             }
           });
           divImage.appendChild(divTrash);
-
-          // Suppression de toutes les images au click du bouton supprimer la galerie
-          deleteButton.addEventListener("click", () => {
-            const imageId = image.id;
-            const token = localStorage.getItem("token");
-            fetch(`http://localhost:5678/api/works/${imageId}`, {
-              method: "DELETE",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-            })
-              .then((response) => {
-                console.log(response);
-                if (response.status === 204) {
-                  response;
-                  const element = document.querySelector(
-                    `[data-imageId="${image.id}"]`
-                  );
-                  let i = 0;
-                  while (i < element.length) {
-                    element[i].remove();
-                    i++;
-                  }
-                }
-              })
-              .then((data) => {
-                // Fermeture de la modale
-                modalContentDiv.style.display = "none";
-                modalDiv.style.display = "none";
-                //code pour rafraichir la page après suppression de la galerie
-                window.location.reload();
-                console.log("La galerie a été supprimée avec succès.");
-              })
-
-              .catch((error) => console.error(error));
-          });
         });
       })
       .catch((error) => console.error(error));
